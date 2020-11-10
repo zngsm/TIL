@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .completed {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <select v-model="filter" >
+      <option value="all">전체</option>
+      <option value="ing">진행 중</option>
+      <option value="done">완료</option>
+    </select>
+    <input type="text" v-model="userInput" @keyup.enter="addTodo"> <!--사용자가 입력한 값을 userInput에 할당 / 둘이 양방향으로 동시 반영하기 위해 v-model을 사용함-->
+    <button>+</button>
+    <br>
+    <button @click="deleteCompleted">완료된 할 일 지우기</button>
+    <ul>
+      <!-- <li v-for="todo in todos"><input type="checkbox":checked="todo.isCompleted">{{ todo.content }}</li> -->
+      <!-- <li v-for="todo in todos" :class="{ completed: todo.isCompleted }" v-if="filter==='all' || filter==='ing' && !todo.isCompleted"> v-if구문이 너무~~ 복잡함 -->
+      <li v-for="todo in filteredTodos" :class="{ completed: todo.isCompleted }">
+        <input type="checkbox" v-model="todo.isCompleted":checked="todo.isCompleted">
+        {{ todo.content }}
+      </li>
+    </ul>
+    
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        userInput: '',
+        todos:[
+          {content:'건강설문', isCompleted:false},
+          {content:'홈워크', isCompleted:false}
+        ],
+        filter: 'all',
+      },
+      methods: {
+        addTodo: function() {
+          this.todos.push({
+            content: this.userInput, isCompleted:false
+          })
+          this.userInput = ''
+        },
+        deleteCompleted: function() {
+          const newTodo = []
+          this.todos.forEach(todo => {
+            if (!todo.isCompleted) {
+              newTodo.push(todo)
+            }
+          });
+          this.todos = newTodo
+        },
+        changeFilter: function(event) {
+          
+        }
+      },
+      computed: {
+        filteredTodos: function() {
+          //filter 값에 따라 필터링된 todos를 만들기
+          const filteredArray = this.todos.filter(todo=>{
+            if (this.filter === 'all') {
+              // 모든 todo가 filter 통과 가능
+              return true 
+            } else if (this.filter === 'ing') {
+              // 진행 중, 즉 todo.isCompleted가 false인 애들만 필터 통과
+              return !todo.isCompleted
+              // 완료된 경우, todo.isCompleted가 true인 애들만 필터 통과
+            } else {
+              return todo.isCompleted
+            }
+          })
+          // computed 안에서는 반드시 return 값 필요!
+          return filteredArray
+        },
+      },
+    })
+  </script>
+</body>
+</html>

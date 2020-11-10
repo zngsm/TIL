@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">u
+    <h1>Cat Image</h1>
+    <img src="" alt="cat-img">
+    <button v-on:click="getUrl">Get Cat</button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        catUrl: '',
+        message:'되냐?'
+      },
+      methods: {
+        getUrl: function () {
+          alert(this.message)
+        },
+      }
+    })
+  </script>
+</body>
+</html>

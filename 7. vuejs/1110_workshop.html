@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .done {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+
+    <form action="">
+      <select name="" id="">
+        <option value="all">전체</option>
+        <option value="ing">진행 중</option>
+        <option value="complete">완료</option>
+      </select>
+    </form>
+
+    <input type="text" id="input">
+    <button @click="addTodo">+</button>
+
+    <ul v-for="todo in todos">
+      <li id="thing">
+          <input @click="completedCheck" type="checkbox" name="isdone" value="check" id="checkbox">
+            {{ todo.text }}
+      </form>
+      </li>      
+    </ul>
+
+    <br>
+    <button>완료된 할 일 지우기</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data : {
+        todos : [],
+        state : 'false',
+      },
+      methods : {
+        addTodo: function (event) {
+          const input = document.querySelector('#input')
+          const content = input.value
+          const todo = {
+            text: content,
+            completed: false
+          }
+          this.todos.push(todo)
+          input.value = ''
+        },
+        completedCheck: function (item) {
+          const checkbox = document.querySelector('#checkbox')
+          const thing = document.querySelector('#thing')
+          if (checkbox.value === check) {
+              thing.classList.add('done')
+          } else {
+            thing.classList.remove('done')
+          }
+
+        }
+        // watch: {
+        //   todos: {
+        //     handler: function(todos) {
+        //       todoStorage.save(todos)
+        //     },
+        //     deep: true
+        //   }
+        // }
+      },
+    })
+
+  </script>
+</body>
+</html>
