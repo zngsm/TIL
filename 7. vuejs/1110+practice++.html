@@ -8,8 +8,14 @@
 <body>
     <h2> To do List </h2>
     <div id="app">
-      <input type="text">
-      <button>+</button>
+      <img :src="myUrl" width="300" alt="cat">
+      <button @click="getUrl">고양이!</button>
+      <br>
+      <input type="text" v-model="userInput" @keyup.enter="addTodo">
+      <button @click="addTodo">+</button>
+      <ul>
+        <li v-for="todo in todos">{{ todo.content }}</li>
+      </ul>
     </div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -17,8 +23,25 @@
   <script>
     const app = new Vue ({
       el: '#app',
-      data: {},
-      method: {},
+      data: {
+        userInput:'',
+        todos:[],
+        myUrl:'',
+      },
+      methods: {
+        addTodo: function () {
+          this.todos.push({
+            content:this.userInput, isCompleted:false
+          })
+        },
+        getUrl: function () {
+          axios.get('https://api.thecatapi.com/v1/images/search/')
+          .then((res) => {
+          console.log("res", res)
+          this.myUrl = res.data[0].url
+          })
+        },
+      },
     })
   </script>
 </body>
