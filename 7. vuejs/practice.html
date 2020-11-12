@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    img {
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>Cat Image</h1>
+    <img :src="imgSrc" alt="cat"><br/>
+    <button @click="getCat">Get Cat</button>
+  </div>
+  
+  <!-- Vue.js -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const API_URL = 'https://api.thecatapi.com/v1/images/search'
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        imgSrc: '',
+      },
+      methods: {
+        getCat: function () {
+          axios.get(API_URL).then(response => {
+            this.imgSrc = response.data[0].url
+          })
+        },
+      },
+      created () { // 컴포넌트 생성시! (자바스크립트 코드가 실행되었을때만 나옴)
+        console.log('created')
+        this.getCat()
+      },
+      updated () { // 컴포넌트 수정시!
+        console.log('updated!', this.imgSrc)
+      },
+      mounted () { // DOM 렌더링 준비완료시에는 mount! created와 비슷해보이지만 둘은 다르다!구분하기~~
+        console.log('mounted!')
+      },
+      destoryed () {
+        console.log('destroyed!')
+      }
+    })
+  </script>
+</body>
+</html>
