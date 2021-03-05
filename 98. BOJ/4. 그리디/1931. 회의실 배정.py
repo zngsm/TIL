@@ -1,18 +1,18 @@
 import sys; sys.stdin = open("input_1931.txt", "r")
-
-N = int(input())
-arr = []
-for _ in range(N):
-    s, e = map(int, input().split())
-    a = [s, e, e - s + 1]
-    arr.append(a)
-
-print(arr)
-time = 2 ** 31 - 1
-cnt = 0
-for i in range(N-1, -1, -1):
-    if arr[i][1] < time:
-        cnt += 1
-        time = arr[i][0]
-
-print(cnt)
+s = sys.stdin.readline
+N = int(s())
+arr = [tuple(map(int, s().split())) for _ in range(N)]
+arr = sorted(arr, key = lambda x : (x[1], x[0]))
+i = 0
+start = -1
+ans = []
+while True:
+    if not arr:
+        break
+    if start == 2 ** 31 - 1:
+        break
+    A = arr.pop(0)
+    if A[0] >= start:
+        ans.append(A)
+        start = A[1]
+print(len(ans))
